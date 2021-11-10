@@ -1,10 +1,14 @@
-class Trade(private val id: String,private val symbol: String, private val quantity: Int, private var price: Double) {
+abstract class Trade(private val id: String, private var price: Double) {
   def _id: String = id
-  def _symbol: String = symbol
-  def _quantity: Int = quantity
+//  def _symbol: String = symbol
+//  def _quantity: Int = quantity
   def _price: Double = price
 
-  def price_ (newPrice: Double): Unit = {
+//  def this(id: String, symbol: String, quantity: Int){
+//    this(id,symbol,quantity,price = 0.0)
+//  }
+
+  def setPrice (newPrice: Double): Unit = {
     if(newPrice > 0 ){
       price = newPrice
     }else{
@@ -12,26 +16,22 @@ class Trade(private val id: String,private val symbol: String, private val quant
     }
   }
 
-  def value:Double = quantity.*(price)
+  override def toString = s"" +
+    s"id: $id \n" +
+    s"tradeType: ${
+      if (executeTrade()) {
+        "EquityTrade"
+      } else {
+        "FxTrade"
+      }
+    }"
 
-  override def toString = s"id: $id"
+  def executeTrade():Boolean
 }
 
 
-//class Point {
-//  private var _x = 0
-//  private var _y = 0
-//  private val bound = 100
-//
-//  def x = _x
-//  def x_= (newValue: Int): Unit = {
-//    if (newValue < bound) _x = newValue else printWarning
-//  }
-//
-//  def y = _y
-//  def y_= (newValue: Int): Unit = {
-//    if (newValue < bound) _y = newValue else printWarning
-//  }
-//
-//  private def printWarning = println("WARNING: Out of bounds")
+//object Trade{
+//  def apply(id: String, symbol: String, quantity: Int, price: Double): Trade = new Trade(id, symbol, quantity, price)
 //}
+
+
